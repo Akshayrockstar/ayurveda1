@@ -73,6 +73,7 @@ class LoginScreen extends StatelessWidget {
                         if (response['status']) {
                           print(response);
                           LoginResponse user = response['user'];
+                          debugPrint("user.token${user.token}");
 
                           if (email.text == user.userDetails?.username &&
                               password.text == user.userDetails?.passwordText) {

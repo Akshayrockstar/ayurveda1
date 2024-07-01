@@ -9,7 +9,11 @@ class CommonAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back)),
+        IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(Icons.arrow_back)),
         Spacer(),
         IconButton(onPressed: () {}, icon: Icon(Icons.blender_outlined))
       ],

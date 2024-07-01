@@ -7,6 +7,7 @@ class Palette {
   static final Color? GreyPrimary = Color(0xff000000).withOpacity(.2);
   static const Color DARK = Color(0x000000);
   static const Color Green = Color(0xff006837);
+  static final Color? DarkGreen = Colors.green[800];
   static LinearGradient primaryGradient = LinearGradient(
     begin: Alignment.topRight,
     end: Alignment.bottomLeft,
