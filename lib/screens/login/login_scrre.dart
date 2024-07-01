@@ -2,6 +2,7 @@ import 'package:ayurvedas/core/common/common_button.dart';
 import 'package:ayurvedas/core/const.dart';
 import 'package:ayurvedas/core/shared_Prefe.dart';
 import 'package:ayurvedas/model/login_response_model.dart';
+import 'package:ayurvedas/screens/booking_details/booking_details.dart';
 import 'package:ayurvedas/viemodel/common_viemodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -68,13 +69,13 @@ class LoginScreen extends StatelessWidget {
                           vm.login(email.text, password.text);
 
                       successfulMessage.then((response) {
-                        print("response :" + response.toString());
+                        print("akkkkk :" + response.toString());
                         if (response['status']) {
                           print(response);
                           LoginResponse user = response['user'];
 
                           if (email.text == user.userDetails?.username &&
-                              password == user.userDetails?.passwordText) {
+                              password.text == user.userDetails?.passwordText) {
                             if (user.userDetails?.username != '' &&
                                 user.userDetails?.passwordText != '') {
                               UserPreferences().saveUser(user);
@@ -85,10 +86,11 @@ class LoginScreen extends StatelessWidget {
                               //   duration: Duration(seconds: 3),
                               // ).show(context);
 
-                              // Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //         builder: (context) => HomePage()));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          BookingDetailScreen()));
                             }
                           }
                         } else {}

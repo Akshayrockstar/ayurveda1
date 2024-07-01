@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:ayurvedas/model/login_response_model.dart';
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 
@@ -24,11 +25,12 @@ class Webservice {
       final responseBody = await responseStream.transform(utf8.decoder).join();
 
       valueMap = jsonDecode(responseBody);
-
+      LoginResponse authUser = LoginResponse.fromJson(valueMap);
+      print(valueMap);
       return {
         'status': true,
         'message': 'Success',
-        'user': valueMap,
+        'user': authUser,
       };
       print(response);
     } catch (e) {
