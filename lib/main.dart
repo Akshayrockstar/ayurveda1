@@ -1,4 +1,5 @@
 import 'package:ayurvedas/screens/login/login_scrre.dart';
+import 'package:ayurvedas/screens/spalsh_screen.dart';
 import 'package:ayurvedas/viemodel/common_viemodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -8,6 +9,6 @@ Future<void> main() async {
       create: (context) => CommonViewModel(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: LoginScreen(),
+        home: SplashScreen(),
       )));
 }

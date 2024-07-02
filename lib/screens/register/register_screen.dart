@@ -2,6 +2,7 @@ import 'package:ayurvedas/core/common/common_button.dart';
 import 'package:ayurvedas/core/common/date_fields.dart';
 import 'package:ayurvedas/core/common/textform_field.dart';
 import 'package:ayurvedas/core/const.dart';
+import 'package:ayurvedas/model/print_screen.dart';
 import 'package:ayurvedas/screens/booking_details/widgets/app_bar.dart';
 import 'package:ayurvedas/viemodel/common_viemodel.dart';
 import 'package:flutter/material.dart';
@@ -131,7 +132,32 @@ class RegisterScreen extends StatelessWidget {
                     BuildDateFormField(
                       label: "Date",
                     ),
-                    CustomButton(label: "Save", onTap: () {}),
+                    CustomButton(
+                        label: "Save",
+                        onTap: () {
+                          final Future<Map<String, dynamic>> successfulMessage =
+                              Vm.register(
+                                  name: "wwww",
+                                  excecutive: "sdff",
+                                  payment: "sdf",
+                                  phone: "000000",
+                                  address: "ffff",
+                                  total_amount: 300,
+                                  discount_amount: 3200,
+                                  useadvance_amountrname: 2300,
+                                  balance_amount: 200,
+                                  date_nd_time: "01/02/2024-10:24 AM",
+                                  id: "",
+                                  male: [100, 10],
+                                  branch: 166,
+                                  female: [100, 10],
+                                  treatment: [100, 90]);
+                          print("responseE$successfulMessage");
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PrintScreen()));
+                        }),
                   ],
                 ),
               )

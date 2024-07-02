@@ -102,7 +102,7 @@ class LoginScreen extends StatelessWidget {
                             }
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text(response["message"] ?? ""),
+                              content: Text("Error Occured" ?? ""),
                             ));
                           }
                         } else {

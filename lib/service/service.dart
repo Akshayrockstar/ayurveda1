@@ -158,6 +158,7 @@ class Webservice {
     var responseString = String.fromCharCodes(responseData);
 
     Map<String, dynamic> result;
+    print("responseStringresponseString$responseString");
 
 /*
     final Map<String, dynamic> registerData = {
