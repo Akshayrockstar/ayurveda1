@@ -1,16 +1,22 @@
 import 'package:ayurvedas/core/common/common_button.dart';
 import 'package:ayurvedas/core/const.dart';
+import 'package:ayurvedas/model/patiant_list_model.dart';
 import 'package:ayurvedas/screens/booking_details/widgets/app_bar.dart';
 import 'package:ayurvedas/screens/booking_details/widgets/search_section.dart';
+import 'package:ayurvedas/screens/register/register_screen.dart';
+import 'package:ayurvedas/viemodel/common_viemodel.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../core/color_pellete/color_pellete.dart';
 
 class BookingDetailScreen extends StatelessWidget {
   BookingDetailScreen({super.key});
+  CommonViewModel vm = CommonViewModel();
   ScrollController controller = ScrollController();
   @override
   Widget build(BuildContext context) {
+    vm = Provider.of<CommonViewModel>(context);
     return Scaffold(
         body: SafeArea(
       child: Padding(
@@ -33,17 +39,41 @@ class BookingDetailScreen extends StatelessWidget {
             const FilterSection(),
             const Divider(),
             Expanded(
-              child: ListView.separated(
-                shrinkWrap: true,
-                controller: controller,
-                physics: AlwaysScrollableScrollPhysics(),
-                itemBuilder: (context, index) => CustomBookingListCaerd(
-                  index: index,
-                ),
-                itemCount: 5,
-                separatorBuilder: (context, index) => SizedBox(
-                  height: 10,
-                ),
+              child: FutureBuilder(
+                future: vm.getPatiantList(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<List<Patient>> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    List<Patient> patientList = snapshot.data ?? [];
+                    print("profileData?.length.toString()");
+                    print(patientList.length);
+                    // final user = profileData?['data'];
+                    // print("sssssssssssssssssssssssssssaaaa${user.patient}");
+                    // final list = user.patient;
+                    // print("sssssssssssssssssssssssssssaaaa$list");
+
+                    if (patientList?.isNotEmpty == true) {
+                      return ListView.separated(
+                        shrinkWrap: true,
+                        controller: controller,
+                        physics: AlwaysScrollableScrollPhysics(),
+                        itemBuilder: (context, index) => CustomBookingListCaerd(
+                            index: index, data: patientList[index]),
+                        itemCount: patientList!.length ?? 0,
+                        separatorBuilder: (context, index) => SizedBox(
+                          height: 10,
+                        ),
+                      );
+                    } else {
+                      Text("List is Epmty");
+                    }
+                  }
+                  return Container(
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                    child: Center(child: CircularProgressIndicator()),
+                  );
+                },
               ),
             ),
             SizedBox(
@@ -51,7 +81,10 @@ class BookingDetailScreen extends StatelessWidget {
             ),
             CustomButton(
               label: "Register",
-              onTap: () {},
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => RegisterScreen()));
+              },
             ),
           ],
         ),
@@ -62,9 +95,11 @@ class BookingDetailScreen extends StatelessWidget {
 
 class CustomBookingListCaerd extends StatelessWidget {
   final int index;
+  final Patient data;
   const CustomBookingListCaerd({
     super.key,
     required this.index,
+    required this.data,
   });
 
   @override
@@ -80,7 +115,7 @@ class CustomBookingListCaerd extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  " ${index.toString()} .",
+                  " ${(index + 1)} .",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 SizedBox(
@@ -90,7 +125,7 @@ class CustomBookingListCaerd extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Vikram Sing",
+                      data.user ?? "",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     SizedBox(

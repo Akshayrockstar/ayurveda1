@@ -1,4 +1,5 @@
 import 'package:ayurvedas/core/common/common_button.dart';
+import 'package:ayurvedas/core/common/toast.dart';
 import 'package:ayurvedas/core/const.dart';
 import 'package:ayurvedas/core/shared_Prefe.dart';
 import 'package:ayurvedas/model/login_response_model.dart';
@@ -80,6 +81,12 @@ class LoginScreen extends StatelessWidget {
                             if (user.userDetails?.username != '' &&
                                 user.userDetails?.passwordText != '') {
                               UserPreferences().saveUser(user);
+                              UserPreferences().getUser().then(
+                                (user) {
+                                  print("Session Username :${user.token}");
+                                  // print("Session Password :" +user.lastname.toString());
+                                },
+                              );
                               // Flushbar(
                               //   title: "Success",
                               //   message:
@@ -93,8 +100,15 @@ class LoginScreen extends StatelessWidget {
                                       builder: (context) =>
                                           BookingDetailScreen()));
                             }
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text(response["message"] ?? ""),
+                            ));
                           }
-                        } else {}
+                        } else {
+                          print("elsecase");
+                          showToast(response["message"]);
+                        }
                       });
                     },
                   ),

@@ -1,7 +1,11 @@
 import 'dart:convert';
 
+import 'package:ayurvedas/core/shared_Prefe.dart';
 import 'package:ayurvedas/model/login_response_model.dart';
+import 'package:ayurvedas/model/patiant_list_model.dart';
+import 'package:ayurvedas/service/app_url.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class Webservice {
@@ -42,5 +46,64 @@ class Webservice {
         'user': null,
       };
     }
+  }
+
+  Future<List<Patient>> getPatiantList() async {
+    var result;
+    List<Patient> lis1t = [];
+    String url = "${AppUrl.baseUrl}PatientList";
+    String token = "";
+    await UserPreferences().getUser().then(
+      (user) {
+        token = user.token ?? "";
+        // print("Session Password :" +user.lastname.toString());
+      },
+    );
+    print("sssssssssssssssssssss$token");
+    // final Map<String, dynamic> loginData = {
+    //
+    //
+    //   'username': username,
+    //   'password': password
+    // };
+    final response = await http.get(
+      Uri.parse(
+        url,
+      ),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    print("response.statusCode");
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> responseData = json.decode(response.body);
+
+      var userData = responseData;
+
+      print(userData["patient"]);
+      (userData["patient"] as List).forEach((element) {
+        lis1t.add(Patient.fromJson(element));
+      });
+
+      PatiantListModel patiantModel = PatiantListModel.fromJson(userData);
+
+      //UserPreferences().saveUser(authUser);
+      result = {
+        'status': true,
+        'message': patiantModel.message,
+        'data': patiantModel
+      };
+    } else {
+      //_loggedInStatus = Status.NotLoggedIn;
+      //notifyListeners();
+      result = {
+        'status': false,
+        'message': json.decode(response.body)['error']
+      };
+    }
+    return lis1t;
   }
 }
