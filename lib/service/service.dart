@@ -59,7 +59,7 @@ class Webservice {
         // print("Session Password :" +user.lastname.toString());
       },
     );
-    print("sssssssssssssssssssss$token");
+
     // final Map<String, dynamic> loginData = {
     //
     //
@@ -105,5 +105,100 @@ class Webservice {
       };
     }
     return lis1t;
+  }
+
+  Future<Map<String, dynamic>> register(
+      {required name,
+      required String excecutive,
+      required String payment,
+      required String phone,
+      required String address,
+      required double total_amount,
+      required double discount_amount,
+      required double useadvance_amountrname,
+      required double balance_amount,
+      required String date_nd_time,
+      required String id,
+      required int branch,
+      required List<int> male,
+      required List<int> treatment,
+      required List<int> female}) async {
+    String token = "";
+    await UserPreferences().getUser().then(
+      (user) {
+        token = user.token ?? "";
+        // print("Session Password :" +user.lastname.toString());
+      },
+    );
+    var request = http.MultipartRequest(
+      "POST",
+      Uri.parse("${AppUrl.baseUrl}PatientUpdate"),
+    );
+    request.headers['Authorization'] = "$token";
+    //var request = http.MultipartRequest("POST", Uri.parse("http://192.168.136.62:8080/dr_thayyari/dr_reg_withimage"));
+
+    request.fields['name'] = name;
+    request.fields['excecutive'] = excecutive;
+    request.fields['payment'] = payment;
+    request.fields['phone'] = phone;
+    request.fields['address'] = address;
+    request.fields['total_amount'] = total_amount.toString();
+    request.fields['discount_amount'] = discount_amount.toString();
+    request.fields['advance_amount'] = useadvance_amountrname.toString();
+    request.fields['balance_amount'] = balance_amount.toString();
+    request.fields['date_nd_time'] = date_nd_time;
+    request.fields['id'] = id;
+    request.fields['male'] = male.join(",");
+    request.fields['female'] = female.join(",");
+    request.fields['treatments'] = treatment.join(",");
+    request.fields['branch'] = branch.toString();
+    var response = await request.send();
+
+    var responseData = await response.stream.toBytes();
+    var responseString = String.fromCharCodes(responseData);
+
+    Map<String, dynamic> result;
+
+/*
+    final Map<String, dynamic> registerData = {
+      'name':name,
+      'date': date,
+      'location': location,
+      'selectedReportList': selectedReportList,
+      'selectedReportList1': selectedReportList1,
+      'education': education,
+      'university': university,
+      'username': username,
+      'password': password,
+      //'studentid': studentid,
+    };
+
+    //final url = "http://www.omdbapi.com/?s=$keyword&apikey=8c511351-372a-4752-91ce-79a9cc961aa2";
+    final url="http://192.168.0.3:8080/dr_thayyari/dr_reg_withimage";
+    final response = await http.post(Uri.parse(url
+    ),
+
+      body: registerData,
+      //headers: {'Content-Type': 'application/json'}
+
+    );*/
+    if (response.statusCode == 200) {
+      //print("response      :"+response.body.toString());
+
+      /* final Map<String, dynamic> responseData =jsonDecode(responseString);
+      var userData = responseData;
+
+      print("userdata"+userData.toString());
+
+      reg authUser = reg.fromJson(userData);*/
+      result = {
+        'status': true,
+        'message': 'Successful',
+        'user': responseString
+      };
+    } else {
+      result = {'status': false, 'message': "error"};
+    }
+    return result;
   }
 }

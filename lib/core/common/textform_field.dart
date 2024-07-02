@@ -1,5 +1,6 @@
 import 'package:ayurvedas/core/color_pellete/color_pellete.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 class InputField extends StatefulWidget {
@@ -8,6 +9,7 @@ class InputField extends StatefulWidget {
   final String? hint;
   final bool password;
   final String heading;
+  final bool isDoubleOnly;
 
   const InputField(
       {Key? key,
@@ -15,6 +17,7 @@ class InputField extends StatefulWidget {
       this.label,
       required this.heading,
       this.hint,
+      this.isDoubleOnly = false,
       this.password = false})
       : super(key: key);
 
@@ -46,6 +49,11 @@ class _InputFieldState extends State<InputField> {
         TextFormField(
           controller: widget.controller,
           obscureText: show,
+          keyboardType:
+              widget.isDoubleOnly ? TextInputType.number : TextInputType.text,
+          inputFormatters: widget.isDoubleOnly
+              ? [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))]
+              : [],
           decoration: InputDecoration(
             filled: true,
             fillColor: Palette.GreyPrimary,

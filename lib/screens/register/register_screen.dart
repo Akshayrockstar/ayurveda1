@@ -1,14 +1,29 @@
+import 'package:ayurvedas/core/common/common_button.dart';
+import 'package:ayurvedas/core/common/date_fields.dart';
 import 'package:ayurvedas/core/common/textform_field.dart';
 import 'package:ayurvedas/core/const.dart';
 import 'package:ayurvedas/screens/booking_details/widgets/app_bar.dart';
+import 'package:ayurvedas/viemodel/common_viemodel.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatelessWidget {
   RegisterScreen({super.key});
   TextEditingController nameController = TextEditingController();
-
+  TextEditingController whatsappController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+  TextEditingController locationController = TextEditingController();
+  TextEditingController branchController = TextEditingController();
+  TextEditingController totalAmountController = TextEditingController();
+  TextEditingController discountAmountController = TextEditingController();
+  TextEditingController advancedAmountController = TextEditingController();
+  TextEditingController balanceAmountController = TextEditingController();
+  TextEditingController treatMentDateController = TextEditingController();
+  TextEditingController treatmentTimeController = TextEditingController();
+  TextEditingController payMentController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    CommonViewModel Vm = Provider.of<CommonViewModel>(context);
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -44,7 +59,7 @@ class RegisterScreen extends StatelessWidget {
                     InputField(
                       heading: "WhatsApp number",
                       hint: "Enter Your Whtasapp Number",
-                      controller: nameController,
+                      controller: whatsappController,
                     ),
                     SizedBox(
                       height: margin,
@@ -52,7 +67,7 @@ class RegisterScreen extends StatelessWidget {
                     InputField(
                       heading: "Address",
                       hint: "Enter Your Address",
-                      controller: nameController,
+                      controller: addressController,
                     ),
                     SizedBox(
                       height: margin,
@@ -60,7 +75,7 @@ class RegisterScreen extends StatelessWidget {
                     InputField(
                       heading: "Location",
                       hint: "Choose your Location",
-                      controller: nameController,
+                      controller: locationController,
                     ),
                     SizedBox(
                       height: margin,
@@ -68,25 +83,55 @@ class RegisterScreen extends StatelessWidget {
                     InputField(
                       heading: "Branch",
                       hint: "Select the Branch",
-                      controller: nameController,
+                      controller: branchController,
                     ),
                     SizedBox(
                       height: margin,
                     ),
                     Text("Treatmnets"),
                     InputField(
+                      isDoubleOnly: true,
                       heading: "Total Amount",
                       hint: "",
-                      controller: nameController,
+                      controller: totalAmountController,
                     ),
                     SizedBox(
                       height: margin,
                     ),
                     InputField(
+                      isDoubleOnly: true,
                       heading: "Discount Amount",
                       hint: "",
-                      controller: nameController,
+                      controller: discountAmountController,
                     ),
+                    SizedBox(
+                      height: margin,
+                    ),
+                    PaymentSelection(
+                      text: payMentController,
+                    ),
+                    InputField(
+                      isDoubleOnly: true,
+                      heading: "Advance Amount",
+                      hint: "",
+                      controller: advancedAmountController,
+                    ),
+                    SizedBox(
+                      height: margin,
+                    ),
+                    InputField(
+                      isDoubleOnly: true,
+                      heading: "Balance Amount",
+                      hint: "",
+                      controller: balanceAmountController,
+                    ),
+                    SizedBox(
+                      height: margin,
+                    ),
+                    BuildDateFormField(
+                      label: "Date",
+                    ),
+                    CustomButton(label: "Save", onTap: () {}),
                   ],
                 ),
               )
@@ -94,6 +139,90 @@ class RegisterScreen extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class PaymentSelection extends StatefulWidget {
+  final TextEditingController text;
+  const PaymentSelection({
+    super.key,
+    required this.text,
+  });
+
+  @override
+  State<PaymentSelection> createState() => _PaymentSelectionState();
+}
+
+class _PaymentSelectionState extends State<PaymentSelection> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Payment Options",
+          style: TextStyle(fontSize: 15),
+        ),
+        Row(
+          children: [
+            Checkbox(
+              checkColor: Colors.white,
+              value: widget.text.text == "cash",
+              shape: CircleBorder(),
+              onChanged: (bool? value) {
+                setState(() {
+                  widget.text.text = "cash"!;
+                });
+              },
+            ),
+            Text(
+              "Cash",
+              style:
+                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(
+              width: 5,
+            ),
+            Checkbox(
+              checkColor: Colors.white,
+              value: widget.text.text == "card"!,
+              shape: CircleBorder(),
+              onChanged: (bool? value) {
+                setState(() {
+                  widget.text.text = "card"!;
+                });
+              },
+            ),
+            Text(
+              "Card",
+              style:
+                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(
+              width: 5,
+            ),
+            Checkbox(
+              checkColor: Colors.white,
+              value: widget.text.text == "Up",
+              shape: CircleBorder(),
+              onChanged: (bool? value) {
+                setState(() {
+                  widget.text.text = "Up"!;
+                });
+              },
+            ),
+            Text(
+              "Up",
+              style:
+                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(
+              width: 5,
+            )
+          ],
+        ),
+      ],
     );
   }
 }

@@ -1,5 +1,5 @@
 import 'package:ayurvedas/core/common/common_button.dart';
-import 'package:ayurvedas/core/common/toast.dart';
+
 import 'package:ayurvedas/core/const.dart';
 import 'package:ayurvedas/core/shared_Prefe.dart';
 import 'package:ayurvedas/model/login_response_model.dart';
@@ -107,12 +107,11 @@ class LoginScreen extends StatelessWidget {
                           }
                         } else {
                           print("elsecase");
-                          showToast(response["message"]);
                         }
                       });
                     },
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Text(
                       "By creating or Logging in to an account You are agreeing with our terms and conditions and privacy and policy")
                 ],

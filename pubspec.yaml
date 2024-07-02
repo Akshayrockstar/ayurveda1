@@ -39,7 +39,7 @@ dependencies:
   freezed_annotation: ^2.4.1
   dartz: ^0.10.1
   json_annotation: ^4.9.0
-  json_serializable:
+  
   dio: ^5.4.3+1
   equatable: ^2.0.5
   flutter_launcher_icons: ^0.13.1
@@ -47,11 +47,15 @@ dependencies:
   http: ^1.2.1
   bloc:
   provider: ^6.1.2
-  fluttertoast: ^8.2.6
+  flutter_typeahead: ^5.2.0
+  datetime_picker_formfield: ^2.0.1
+  
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  build_runner:
+  json_serializable:  
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
